@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Test Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="p-8 bg-gray-100">
+
+    <h1 class="text-2xl font-bold mb-4">Product Load Test</h1>
+
+    <div id="log" class="mb-4 p-4 bg-white rounded shadow font-mono text-sm"></div>
+    <div id="products" class="grid grid-cols-3 gap-4"></div>
+
+    <script>
+        const log = document.getElementById('log');
+        const grid = document.getElementById('products');
+
+        function addLog(msg) {
+            console.log(msg);
+            log.innerHTML += msg + '<br>';
+        }
+
+        addLog('[1] Starting test...');
+        addLog('[2] Fetching from /api/products...');
+
+        fetch('/api/products')
+            .then(res => {
+                addLog(`[3] Response status: ${res.status}`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
+            .then(data => {
+                addLog(`[4] Got ${data.products?.length || 0} products`);
+
+                if (!data.products || data.products.length === 0) {
+                    grid.innerHTML = '<p class="col-span-3 text-red-500">No products found!</p>';
+                    return;
+                }
+
+                data.products.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded shadow';
+                    // Safe image handling for test
+                    const imgUrl = (p.primary_image_url || p.image_url || '').replace(/"/g, '');
+
+                    card.innerHTML = `
+            <div class="bg-gray-200 h-32 mb-2 rounded" style="background-image: url('${imgUrl}'); background-size: cover;"></div>
+            <h3 class="font-bold text-sm">${p.name}</h3>
+            <p class="text-xs text-gray-600">₹${p.price}</p>
+          `;
+                    grid.appendChild(card);
+                });
+
+                addLog('[5] ✅ Products rendered!');
+            })
+            .catch(err => {
+                addLog(`[ERROR] ${err.message}`);
+                grid.innerHTML = `<p class="col-span-3 text-red-500">Error: ${err.message}</p>`;
+            });
+    </script>
+</body>
+
+</html>

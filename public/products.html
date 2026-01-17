@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Delight Services - Modern Heritage Catalog</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Rozha+One&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "heritage-bg": "#FAF7F2", // Soft Amber-tinted Porcelain
+                        "heritage-navy": "#0F172A", // Deep Navy for Nav
+                        "heritage-gold": "#C5A059", // Muted Gold accents
+                        "heritage-amber": "#E6BE8A", // Soft Amber
+                        "heritage-text": "#2D241E", // Dark Brown/Grey for text
+                        "glass-border": "rgba(255, 255, 255, 0.6)",
+                    },
+                    fontFamily: {
+                        "serif": ["Rozha One", "serif"],
+                        "sans": ["Outfit", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                },
+            },
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ========================================
+        // BULLETPROOF PRODUCTS LOADER
+        // ========================================
+
+        console.log('[STEP 1] Script loaded');
+
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://rkhzwlwhprhlecobvxcw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJraHp3bHdocHJobGVjb2J2eGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzI5ODIsImV4cCI6MjA4NDE0ODk4Mn0.jDj0C5lc3h7-PSgPAv-GKFY_yUeULcfWrW3nfqTx5L8';
+
+        // Use a safe variable name and check global
+        var _supabaseLocal;
+        try {
+            if (window.supabaseClient) {
+                _supabaseLocal = window.supabaseClient;
+                console.log('[STEP 2] ✓ Supabase found globally');
+            } else {
+                _supabaseLocal = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                window.supabaseClient = _supabaseLocal;
+                console.log('[STEP 2] ✓ Supabase initialized locally');
+            }
+        } catch (e) {
+            console.error('[STEP 2] ✗ Supabase init failed:', e);
+        }
+
+        // Load products function
+        async function loadProducts() {
+            console.log('[STEP 3] loadProducts() called');
+
+            const grid = document.getElementById('products-grid');
+
+            if (!grid) {
+                console.error('[STEP 3] ✗ products-grid NOT FOUND');
+                alert('ERROR: products-grid element missing');
+                return;
+            }
+
+            console.log('[STEP 3] ✓ Grid element found');
+
+            try {
+                console.log('[STEP 4] Fetching /api/products...');
+
+                const response = await fetch('/api/products');
+
+                console.log('[STEP 4] Response status:', response.status);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const products = data.products || [];
+
+                console.log('[STEP 5] Received', products.length, 'products');
+
+                if (products.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-20"><p class="text-red-500">No products in database</p></div>';
+                    return;
+                }
+
+                // Clear grid
+                grid.innerHTML = '';
+                console.log('[STEP 6] Grid cleared, rendering...');
+
+                // Render each product
+                products.forEach((p, index) => {
+                    console.log(`[STEP 6.${index}] Rendering: ${p.name}`);
+
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-4 rounded-xl shadow hover:shadow-lg transition";
+
+                    const imgUrl = p.primary_image_url || p.image_url || 'https://placehold.co/400x600?text=No+Image';
+
+                    card.innerHTML = `
+              <div class="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden mb-3">
+                <img src="${imgUrl}" 
+                     class="w-full h-full object-cover" 
+                     alt="${p.name}"
+                     onerror="this.src='https://placehold.co/400x600?text=No+Image'">
+              </div>
+              <h3 class="font-bold text-sm mb-1">${p.name}</h3>
+              <p class="text-heritage-gold font-semibold">₹${p.price}</p>
+              <button onclick="addToCart(${p.id}, this)" 
+                      class="mt-2 w-full bg-black text-white py-2 rounded text-xs hover:bg-gray-800">
+                Add to Cart
+              </button>
+            `;
+
+                    grid.appendChild(card);
+                });
+
+                console.log('[STEP 7] ✓✓✓ ALL DONE - Products rendered successfully');
+
+            } catch (error) {
+                console.error('[ERROR] loadProducts failed:', error);
+                grid.innerHTML = `
+            <div class="col-span-full bg-red-100 border border-red-300 rounded p-6 text-center">
+              <p class="font-bold text-red-700 text-lg mb-2">Failed to Load Products</p>
+              <p class="text-sm text-red-600 mb-4">${error.message}</p>
+              <button onclick="location.reload()" 
+                      class="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                Reload Page
+              </button>
+            </div>
+          `;
+            }
+        }
+
+        // Enhanced addToCart
+        window.addToCart = async function (pid, btnElement) {
+            console.log(`[CART] Adding product ${pid}`);
+
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+
+                if (!session) {
+                    console.log('[CART] No session, redirecting to login');
+                    if (confirm('Please log in to add items to cart. Go to login page?')) {
+                        window.location.href = 'login.html';
+                    }
+                    return;
+                }
+
+                // Show loading state
+                // Fallback to window.event if btnElement is missing (though it shouldn't be now)
+                const btn = btnElement;
+
+                if (!btn) {
+                    console.error("[CART] Button element could not be identified.");
+                    // Proceed without visual feedback on button if needed, or return
+                }
+
+                let originalText = '';
+                if (btn) {
+                    originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">progress_activity</span>';
+                }
+
+                const response = await fetch('/api/cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session.access_token}`
+                    },
+                    body: JSON.stringify({ product_id: pid })
+                });
+
+                if (response.ok) {
+                    // Update badge
+                    const currentCount = parseInt(localStorage.getItem('delight_cart_count') || 0);
+                    localStorage.setItem('delight_cart_count', currentCount + 1);
+                    updateCartBadge();
+
+                    // Visual feedback
+                    if (btn) {
+                        btn.innerHTML = '<span class="material-symbols-outlined text-sm">check</span> Added!';
+                        btn.classList.add('bg-green-600', 'text-white');
+
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                            btn.classList.remove('bg-green-600', 'text-white');
+                        }, 2000);
+                    } else {
+                        alert('✓ Added to cart!');
+                    }
+                } else {
+                    alert('Failed to add to cart');
+                    if (btn) {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }
+                }
+
+            } catch (e) {
+                console.error('[CART] Error:', e);
+                alert('Error: ' + e.message);
+            }
+        };
+
+        // Update cart badge from localStorage
+        function updateCartBadge() {
+            const count = localStorage.getItem('delight_cart_count') || 0;
+            const badge = document.getElementById('cart-badge');
+            if (badge) {
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Run once
+        updateCartBadge();
+
+        // RUN ON PAGE LOAD
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('[INIT] DOM ready');
+                loadProducts();
+            });
+        } else {
+            console.log('[INIT] DOM already ready, loading immediately');
+            loadProducts();
+        }
+    </script>
+    <!-- <script type="module" src="auth.js"></script> -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased bg-heritage-bg text-heritage-text selection:bg-heritage-gold selection:text-white">
+    <div class="fixed inset-0 pointer-events-none z-[100] opacity-[0.04] mix-blend-multiply"
+        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCx2iukpTtEM93qF3IahE2nOwEvFyKzTmK0K_ul6d-YJbMKi1da8TGLCZvdNast0ZQk3SoWwhCKBsMUtX7IxzQXHQQYDKXOFkcUTjNkVzeJYl_LjWCUVQTU_89BDHf0J7Utu5tqs61vL20kTc9JHI3_X-R44W7c4kNVXqGi_9UCwk0GPIZhIguYzwMcLBdEFAv3yXm-14z7G9-AWSESgLEJ3y-wRCEOIzPjFnstAwFuMpQ4SZtd6OV0BRRMQ5OEx9klNIfOqAjcuLY');">
+    </div>
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <header
+            class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <a href="home.html" class="flex items-center gap-3 cursor-pointer group">
+                        <img src="delight.png" alt="Logo"
+                            class="w-10 h-10 object-contain group-hover:scale-105 transition-transform">
+                        <span class="font-display font-bold text-xl tracking-tight text-heritage-navy">Delight
+                            Services</span>
+                    </a>
+                    <nav class="hidden lg:flex gap-10 items-center">
+                        <a class="text-sm font-medium text-gray-500 hover:text-heritage-gold transition-colors"
+                            href="home.html">Home</a>
+                        <a class="text-sm font-medium text-gray-500 hover:text-heritage-gold transition-colors"
+                            href="index1.html">Services</a>
+                        <a class="text-sm font-medium text-heritage-gold hover:text-heritage-gold transition-colors"
+                            href="products.html">Products</a>
+                        <a class="text-sm font-medium text-gray-500 hover:text-heritage-gold transition-colors"
+                            href="aboutus.html">About Us</a>
+                    </nav>
+                    <div id="auth-buttons-container" class="hidden lg:flex items-center gap-4">
+                        <a class="text-sm font-semibold text-heritage-navy hover:text-heritage-gold transition-colors"
+                            href="login.html">Log In</a>
+                        <button onclick="window.location.href='started.html'"
+                            class="bg-heritage-navy hover:bg-black text-white font-medium px-6 py-2.5 rounded-full transition-all shadow-md hover:shadow-lg text-sm">
+                            Get Started
+                        </button>
+                    </div>
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-toggle" class="lg:hidden p-2 text-heritage-navy">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1 px-4 md:px-10">
+                    <div class="flex flex-col items-center text-center gap-4 py-12 md:py-16 relative">
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-heritage-gold/10 rounded-full blur-3xl -z-10">
+                        </div>
+                        <span class="text-heritage-gold uppercase tracking-[0.2em] text-xs font-bold">The Scent &amp;
+                            Spirit Bazaar</span>
+                        <h1 class="text-3xl md:text-5xl font-display font-serif text-heritage-navy leading-tight mb-4">
+                            The Royal Collection
+                        </h1>
+
+                        <!-- AI Trend Ticker -->
+                        <div
+                            class="mb-8 opacity-0 transition-opacity duration-1000 flex items-center justify-center gap-2 text-xs font-medium tracking-widest text-heritage-gold uppercase">
+                            <span class="material-symbols-outlined text-sm animate-pulse">auto_awesome</span>
+                            <span id="ai-trend-text">Curating latest trends...</span>
+                        </div>
+
+                        <div class="w-16 h-1 bg-heritage-gold mx-auto rounded-full mb-8"></div>
+                        <p class="text-heritage-text/70 text-lg font-light max-w-2xl leading-relaxed font-sans">
+                            Curated artifacts of sensory delight. Explore our premium range of artisanal perfumes,
+                            incense, and trusted financial products designed for a life of abundance.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-6 pb-10">
+                        <div
+                            class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-heritage-navy/10 pb-6">
+                            <div class="flex gap-3 flex-wrap justify-center md:justify-start">
+                                <button
+                                    class="flex h-10 items-center justify-center px-6 rounded-full bg-heritage-navy text-white shadow-md hover:shadow-lg transition-all">
+                                    <p class="text-sm font-medium tracking-wide">All Treasures</p>
+                                </button>
+                                <button
+                                    class="flex h-10 items-center justify-center px-6 rounded-full bg-white/50 border border-heritage-navy/10 hover:border-heritage-gold hover:text-heritage-gold text-heritage-navy transition-all duration-300">
+                                    <p class="text-sm font-medium tracking-wide">Attars &amp; Scents</p>
+                                </button>
+                                <button
+                                    class="flex h-10 items-center justify-center px-6 rounded-full bg-white/50 border border-heritage-navy/10 hover:border-heritage-gold hover:text-heritage-gold text-heritage-navy transition-all duration-300">
+                                    <p class="text-sm font-medium tracking-wide">Sacred Incense</p>
+                                </button>
+                                <button
+                                    class="flex h-10 items-center justify-center px-6 rounded-full bg-white/50 border border-heritage-navy/10 hover:border-heritage-gold hover:text-heritage-gold text-heritage-navy transition-all duration-300">
+                                    <p class="text-sm font-medium tracking-wide">Wealth Plans</p>
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span
+                                    class="text-xs uppercase tracking-widest text-heritage-text/60 font-semibold hidden sm:block">Sort</span>
+                                <button
+                                    class="flex items-center gap-2 text-sm font-serif text-heritage-navy hover:text-heritage-gold transition-colors">
+                                    Recommended
+                                    <span class="material-symbols-outlined text-lg">expand_more</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="products-grid"
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pb-16 min-h-[400px]">
+                        <!-- Loading State -->
+                        <div
+                            class="col-span-full flex flex-col items-center justify-center py-20 text-heritage-navy/50 gap-4">
+                            <span class="material-symbols-outlined animate-spin text-4xl">progress_activity</span>
+                            <p class="text-sm font-serif tracking-widest">CURATING COLLECTION...</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center pb-20">
+                        <button
+                            class="group flex items-center gap-3 rounded-full border border-heritage-gold/30 bg-white/50 px-8 py-3 text-sm font-bold text-heritage-navy hover:bg-heritage-gold hover:text-white hover:border-heritage-gold transition-all duration-300">
+                            <span class="tracking-widest uppercase text-xs">Explore More</span>
+                            <span
+                                class="material-symbols-outlined text-sm transition-transform group-hover:translate-y-0.5">arrow_downward</span>
+                        </button>
+                    </div>
+                    <footer
+                        class="flex flex-col gap-8 border-t border-heritage-navy/10 py-12 text-center bg-heritage-bg relative">
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-heritage-bg px-4">
+                            <div
+                                class="size-8 flex items-center justify-center rounded-full border border-heritage-gold text-heritage-gold bg-white">
+                                <span class="material-symbols-outlined text-sm">diamond</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
+                            <a class="text-heritage-text/60 hover:text-heritage-gold transition-colors text-sm font-medium"
+                                href="#">Heritage Policy</a>
+                            <a class="text-heritage-text/60 hover:text-heritage-gold transition-colors text-sm font-medium"
+                                href="#">Terms of Use</a>
+                            <a class="text-heritage-text/60 hover:text-heritage-gold transition-colors text-sm font-medium"
+                                href="#">Customer Care</a>
+                            <a class="text-heritage-text/60 hover:text-heritage-gold transition-colors text-sm font-medium"
+                                href="#">Contact</a>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 text-heritage-text/40">
+                            <p class="text-xs font-serif tracking-widest">EST. 2023 • INDIA</p>
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">copyright</span>
+                                <p class="text-xs font-normal">Delight Services. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu-drawer"
+        class="fixed inset-y-0 right-0 w-full sm:w-80 bg-white z-[60] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 flex justify-between items-center border-b border-gray-100">
+            <span class="font-display font-bold text-lg text-heritage-navy">Menu</span>
+            <button id="mobile-menu-close" class="p-2 text-gray-500 hover:text-heritage-navy transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+            <nav class="flex flex-col gap-4">
+                <a class="text-lg font-medium text-heritage-navy hover:text-heritage-gold transition-colors"
+                    href="home.html">Home</a>
+                <a class="text-lg font-medium text-heritage-navy hover:text-heritage-gold transition-colors"
+                    href="index1.html">Services</a>
+                <a class="text-lg font-medium text-heritage-navy hover:text-heritage-gold transition-colors"
+                    href="products.html">Products</a>
+                <a class="text-lg font-medium text-heritage-navy hover:text-heritage-gold transition-colors"
+                    href="aboutus.html">About Us</a>
+                <a class="text-lg font-medium text-heritage-navy hover:text-heritage-gold transition-colors"
+                    href="contact.html">Contact</a>
+            </nav>
+            <div class="border-t border-gray-100 pt-6 flex flex-col gap-4">
+                <a class="text-center text-sm font-semibold text-heritage-navy hover:text-heritage-gold transition-colors"
+                    href="#">Log In</a>
+                <button onclick="window.location.href='started.html'"
+                    class="w-full bg-heritage-navy hover:bg-black text-white font-medium px-6 py-3 rounded-xl transition-all shadow-md hover:shadow-lg text-sm">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Floating Cart Button -->
+    <a href="cart.html" id="floating-cart"
+        class="fixed bottom-8 right-8 z-50 bg-heritage-navy text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
+        <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+        <span id="cart-badge"
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center"
+            style="display: none;">
+            0
+        </span>
+    </a>
+
+    <!-- <script src="script.js"></script> -->
+</body>
+
+</html>

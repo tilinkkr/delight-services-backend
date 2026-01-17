@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Products - Delight Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-gray-50 p-8">
+
+    <h1 class="text-3xl font-bold mb-8">Products (Debug Mode)</h1>
+
+    <div id="status" class="mb-4 p-4 bg-blue-100 rounded"></div>
+    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+    <!-- Floating Cart -->
+    <a href="cart.html" class="fixed bottom-8 right-8 bg-black text-white p-4 rounded-full shadow-xl">
+        🛒 <span id="cart-count">0</span>
+    </a>
+
+    <script>
+        // ========================================
+        // STEP 1: Initialize
+        // ========================================
+        const status = document.getElementById('status');
+
+        function log(msg, type = 'info') {
+            console.log(msg);
+            const color = type === 'error' ? 'bg-red-100' : type === 'success' ? 'bg-green-100' : 'bg-blue-100';
+            status.className = `mb-4 p-4 rounded ${color}`;
+            status.textContent = msg;
+        }
+
+        log('Initializing Supabase...');
+
+        const SUPABASE_URL = 'https://rkhzwlwhprhlecobvxcw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJraHp3bHdocHJobGVjb2J2eGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzI5ODIsImV4cCI6MjA4NDE0ODk4Mn0.jDj0C5lc3h7-PSgPAv-GKFY_yUeULcfWrW3nfqTx5L8';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        log('✓ Supabase initialized', 'success');
+
+        // ========================================
+        // STEP 2: Load Products
+        // ========================================
+        async function loadProducts() {
+            log('Loading products...');
+
+            try {
+                const res = await fetch('/api/products');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const { products } = await res.json();
+                log(`✓ Loaded ${products.length} products`, 'success');
+
+                const grid = document.getElementById('products-grid');
+                grid.innerHTML = '';
+
+                products.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded shadow';
+                    // Fix image URL quotes or bad formatting
+                    const rawImage = p.primary_image_url || p.image_url || '';
+                    const imageUrl = rawImage.replace(/"/g, '');
+
+                    card.innerHTML = `
+            <img src="${imageUrl}" class="w-full h-40 object-cover rounded mb-2" />
+            <h3 class="font-bold">${p.name}</h3>
+            <p class="text-sm text-gray-600">₹${p.price}</p>
+            <button onclick="addToCart(${p.id})" 
+                    class="mt-2 w-full bg-black text-white py-2 rounded hover:bg-gray-800">
+              Add to Cart
+            </button>
+          `;
+                    grid.appendChild(card);
+                });
+
+            } catch (err) {
+                log(`ERROR: ${err.message}`, 'error');
+            }
+        }
+
+        // ========================================
+        // STEP 3: Add to Cart
+        // ========================================
+        async function addToCart(pid) {
+            log(`Adding product ${pid} to cart...`);
+
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+
+                if (!session) {
+                    log('Not logged in. Redirecting...', 'error');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                log(`User: ${session.user.email}`);
+
+                const res = await fetch('/api/cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session.access_token}`
+                    },
+                    body: JSON.stringify({ product_id: pid })
+                });
+
+                if (!res.ok) {
+                    const err = await res.text();
+                    throw new Error(err);
+                }
+
+                const json = await res.json();
+                log('✓ Added to cart!', 'success');
+
+                // Update badge
+                const badge = document.getElementById('cart-count');
+                badge.innerText = parseInt(badge.innerText) + 1;
+
+            } catch (err) {
+                log(`ERROR: ${err.message}`, 'error');
+            }
+        }
+
+        loadProducts();
+    </script>
+</body>
+
+</html>

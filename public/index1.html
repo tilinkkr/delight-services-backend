@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Our Services – Delight Services</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-blue": "#1E88E5",
+                        "primary-teal": "#00BFA5",
+                        "charcoal": "#212121",
+                        "surface-light": "#f8fafc",
+                        "surface-dark": "#121212",
+                        "accent-yellow": "#FDD835",
+                    },
+                    fontFamily: {
+                        "display": ["Poppins", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "3xl": "3rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        '18': '4.5rem',
+                        '22': '5.5rem',
+                        '30': '7.5rem',
+                    },
+                    boxShadow: {
+                        'premium': '0 20px 40px -15px rgba(30, 136, 229, 0.15)',
+                        'premium-hover': '0 30px 60px -12px rgba(30, 136, 229, 0.25)',
+                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="auth.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-surface-light text-charcoal overflow-x-hidden">
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="home.html" class="flex items-center gap-3 cursor-pointer group">
+                    <img src="delight.png" alt="Logo"
+                        class="size-10 object-contain group-hover:scale-105 transition-transform">
+                    <span class="font-display font-bold text-xl tracking-tight text-charcoal">Delight Services</span>
+                </a>
+                <nav class="hidden lg:flex gap-10 items-center">
+                    <a class="text-sm font-medium text-gray-500 hover:text-primary-blue transition-colors"
+                        href="home.html">Home</a>
+                    <a class="text-sm font-medium text-primary-blue transition-colors relative group"
+                        href="index1.html">
+                        Services
+                        <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-blue transition-all"></span>
+                    </a>
+                    <a class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors relative group"
+                        href="products.html">
+                        Products
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all group-hover:w-full"></span>
+                    </a>
+                    <a class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors relative group"
+                        href="aboutus.html">
+                        About Us
+                        <span
+                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all group-hover:w-full"></span>
+                    </a>
+                </nav>
+                <div id="auth-buttons-container" class="hidden lg:flex items-center gap-4">
+                    <a class="text-sm font-semibold text-charcoal hover:text-primary-blue transition-colors"
+                        href="login.html">Log In</a>
+                    <button onclick="window.location.href='started.html'"
+                        class="bg-charcoal hover:bg-black text-white font-medium px-6 py-2.5 rounded-full transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-sm">
+                        Get Started
+                    </button>
+                </div>
+                <button id="mobile-menu-toggle" class="lg:hidden p-2 text-charcoal">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-0">
+        <!-- Hero Section -->
+        <section class="pt-40 pb-20 md:pb-32 bg-surface-light relative">
+            <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+                <!-- Breadcrumbs -->
+
+                <h1 class="text-3xl md:text-5xl font-display font-semibold text-charcoal leading-tight mb-8">
+                    Our Comprehensive Services
+                </h1>
+                <div class="w-16 h-1 bg-accent-yellow mx-auto rounded-full mb-8"></div>
+                <p class="text-lg text-gray-500 font-body max-w-2xl mx-auto">
+                    Trust-oriented financial protection and growth for you and your family. We simplify insurance and
+                    investment to help you secure your future.
+                </p>
+            </div>
+        </section>
+
+        <!-- Sticky Services List -->
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-8 pb-32">
+
+            <!-- Health Section -->
+            <section id="health"
+                class="sticky top-28 mb-24 min-h-[500px] bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden transition-all duration-500">
+                <div class="grid lg:grid-cols-2 h-full">
+                    <div class="relative h-64 lg:h-auto overflow-hidden bg-gray-100">
+                        <img alt="Health Insurance"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105 duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm59rpkzpRWfv8zwuqdpG6-auUyYtLVRWoKUV0wubc0f-fUF-v9FM_u0H1vSuvrZ_4Hri-O9EDlbXDZVDSOgM1K4yDEUWV52z5iAmsjRjOQ4KTi90vw2NPJR0vYZLsecMITJDg9x3U01dasgjifomeQ-rk3fm1wOyHMktoJnN97xS1xTa9nGJhGdKZCSeND6mGEEZBrj0sWO39FgfYoiYAu6GP97DyJh5MeWuYMZubbXsuNMQqY8TeGWiph-RepxvUzNKsQSMQCz8" />
+                        <div class="absolute inset-0 bg-primary-blue/5 mix-blend-multiply"></div>
+                    </div>
+                    <div class="p-10 lg:p-16 flex flex-col justify-center text-left">
+                        <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4">Health Insurance</h2>
+                        <p class="text-gray-600 text-base leading-relaxed mb-8">
+                            Comprehensive protection for you and your loved ones against rising medical costs.
+                        </p>
+                        <div class="flex flex-col gap-6 mb-8">
+                            <!-- Feature 1 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">medical_services</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">What it covers</h3>
+                                    <p class="text-sm text-gray-500">Hospitalization, pre/post care, surgeries, daycare
+                                        procedures.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 2 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">diversity_3</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Who it’s for</h3>
+                                    <p class="text-sm text-gray-500">Individuals, families, and senior citizens seeking
+                                        peace of mind.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 3 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">thumb_up</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Why choose us</h3>
+                                    <p class="text-sm text-gray-500">Cashless claims network, 24/7 dedicated support.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="inline-flex items-center text-primary-blue font-semibold hover:gap-2 transition-all"
+                            href="health1.html">
+                            Enquire Now <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Life Section -->
+            <section id="life"
+                class="sticky top-32 mb-24 min-h-[500px] bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden transition-all duration-500">
+                <div class="grid lg:grid-cols-2 h-full">
+                    <div class="p-10 lg:p-16 flex flex-col justify-center text-left order-2 lg:order-1">
+                        <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4">Life Insurance</h2>
+                        <p class="text-gray-600 text-base leading-relaxed mb-8">
+                            Secure your family's financial future even when you are not around.
+                        </p>
+                        <div class="flex flex-col gap-6 mb-8">
+                            <!-- Feature 1 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">shield</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">What it covers</h3>
+                                    <p class="text-sm text-gray-500">Term life plans, whole life options, and critical
+                                        illness riders.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 2 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">family_restroom</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Who it’s for</h3>
+                                    <p class="text-sm text-gray-500">Parents, breadwinners, and anyone with financial
+                                        dependents.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 3 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">verified</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Why choose us</h3>
+                                    <p class="text-sm text-gray-500">Industry-leading claim settlement ratio and trust.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="inline-flex items-center text-primary-blue font-semibold hover:gap-2 transition-all"
+                            href="#">
+                            Enquire Now <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="relative h-64 lg:h-auto overflow-hidden bg-gray-100 order-1 lg:order-2">
+                        <img alt="Life Insurance"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105 duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3CfcxdmkjqeEgBI_l3d9sNHnWRukV957d-SaPJnvKGC76ITU4-5UcQ2PR9bA1TD37nR4A2P2_y6eJR07qXFsTGsDqMebgPirtvkv3ycaZKA2UDXeHf-PGjpDuPCCa8m2QcUeKcds9R4g7kxArGRVeL5uzJbjTUnf_g-16Fp1q7Brv9CxlefGmrsUYxQZqef7Lf_bsejO6xWb8PGBj8b9RP37Fd909ug0VbzEGEaOiVXOFiyizYojkxWQ1MYUCQKL1m0P6m3h4I6g" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- Motor Section -->
+            <section id="motor"
+                class="sticky top-36 mb-24 min-h-[500px] bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden transition-all duration-500">
+                <div class="grid lg:grid-cols-2 h-full">
+                    <div class="relative h-64 lg:h-auto overflow-hidden bg-gray-100">
+                        <img alt="Motor Insurance"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105 duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8AUyFjwSYfh9af-BsAceSHLTHKBuim18buGAoeYVjistdTQSXXWvreEWbqrPQICQLzCdlRvWt9wTt12tsJzrBtsa87s7DHaO6IEYqSdilZkVPxw6v-aidwhsInxGWCOxlZ5L06Y5ebj56Zty8_tkwrJdWJ8f0kQ6XJLcUgmbXD-6-SbJTtwm9vC4GF04zv264I6Ot_607KkKUJrDZ8cKvBdERjtBBK3qt9ru8lUA3sn8f2TIxSgCLdf12RVvB7RypW2tDr-962vA" />
+                        <div class="absolute inset-0 bg-charcoal/20"></div>
+                    </div>
+                    <div class="p-10 lg:p-16 flex flex-col justify-center text-left">
+                        <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4">Motor Insurance</h2>
+                        <p class="text-gray-600 text-base leading-relaxed mb-8">
+                            Drive with confidence knowing your vehicle is protected against the unexpected.
+                        </p>
+                        <div class="flex flex-col gap-6 mb-8">
+                            <!-- Feature 1 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">directions_car</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">What it covers</h3>
+                                    <p class="text-sm text-gray-500">Accidental damage, theft, and third-party liability
+                                        protection.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 2 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">commute</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Who it’s for</h3>
+                                    <p class="text-sm text-gray-500">Private car owners and two-wheeler enthusiasts.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 3 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">build</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Why choose us</h3>
+                                    <p class="text-sm text-gray-500">24x7 Roadside assistance and instant policy
+                                        renewal.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="inline-flex items-center text-primary-blue font-semibold hover:gap-2 transition-all"
+                            href="#">
+                            Enquire Now <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stocks Section -->
+            <section id="stocks"
+                class="sticky top-40 mb-24 min-h-[500px] bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden transition-all duration-500">
+                <div class="grid lg:grid-cols-2 h-full">
+                    <div class="p-10 lg:p-16 flex flex-col justify-center text-left order-2 lg:order-1">
+                        <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4">Stocks & Trading</h2>
+                        <p class="text-gray-600 text-base leading-relaxed mb-8">
+                            Expert tools and insights to help you navigate the stock market efficiently.
+                        </p>
+                        <div class="flex flex-col gap-6 mb-8">
+                            <!-- Feature 1 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">candlestick_chart</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">What it covers</h3>
+                                    <p class="text-sm text-gray-500">Equity delivery, intraday trading, and derivatives.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Feature 2 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">monitoring</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Who it’s for</h3>
+                                    <p class="text-sm text-gray-500">Active traders and long-term value investors.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 3 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">lightbulb</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Why choose us</h3>
+                                    <p class="text-sm text-gray-500">Low brokerage fees and expert research insights.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="inline-flex items-center text-primary-blue font-semibold hover:gap-2 transition-all"
+                            href="#">
+                            Enquire Now <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="relative h-64 lg:h-auto overflow-hidden bg-gray-100 order-1 lg:order-2">
+                        <img alt="Stocks"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105 duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8-rl7tUphw5nJ-OMISqa7EoxkQU7bKDVJX1a0iGYH0escZuePp4km68d53rGlgeXTdOCgCg7MqkYXZEL5MJH5km1ukjBu3kQSGb4wFXf7aUFzp4RKLXtMnwTlnXMMF5PAvSXhB2u3TnQTuEoBeWeZlBvcu07u7-ynHIgtztoi8v0IZvOicYb14354TjVCPJmGaOlS7ly1iOf5oHAkU4K4FxGK1sHZNaMyDY7SV0nNWE0JGMf1tWZd-YD16fZYeUMu9WbortfR80A" />
+                        <div class="absolute inset-0 bg-blue-900/60 mix-blend-multiply"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mutual Funds Section -->
+            <section id="mutual-funds"
+                class="sticky top-44 mb-10 min-h-[500px] bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden transition-all duration-500">
+                <div class="grid lg:grid-cols-2 h-full">
+                    <div class="relative h-64 lg:h-auto overflow-hidden bg-gray-100">
+                        <img alt="Mutual Funds"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform hover:scale-105 duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-hoyWnSSDR-Rr3wb6ZApF60ZTYPa2-c6PeUSk9Vne_cFShX7Lji-xAkIJnasmkiXz1ESQGVjqp0iXIzS6mW7AUAZYPX8a3T4Cr2SC-wVwZWs1DCiGVcWRhkwu1HSrOzlc0w0HBeMmOsb__WFqkMIT3BuN5TTbXwX8o5vtNorBALhd4aNh42dtQrYPrxnMUYmqQ8FLHgLXxDee2cg9NmgtB9XzJ4hNdo6_OhQtAooPPe4Euhx-EcXH8h_pqbRYgae3lCjRBUPI6AY" />
+                        <div class="absolute inset-0 bg-primary-blue/5 mix-blend-multiply"></div>
+                    </div>
+                    <div class="p-10 lg:p-16 flex flex-col justify-center text-left">
+                        <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal mb-4">Mutual Funds</h2>
+                        <p class="text-gray-600 text-base leading-relaxed mb-8">
+                            Disciplined wealth creation through professionally managed portfolios.
+                        </p>
+                        <div class="flex flex-col gap-6 mb-8">
+                            <!-- Feature 1 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">savings</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">What it covers</h3>
+                                    <p class="text-sm text-gray-500">SIPs, Lumpsum investments, ELSS (Tax saving) funds.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Feature 2 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">groups</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Who it’s for</h3>
+                                    <p class="text-sm text-gray-500">Wealth builders looking for better returns than
+                                        savings accounts.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 3 -->
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="bg-primary-blue/10 text-primary-blue p-2 rounded-full material-symbols-outlined text-xl shrink-0">pie_chart</span>
+                                <div>
+                                    <h3 class="font-bold text-charcoal text-sm">Why choose us</h3>
+                                    <p class="text-sm text-gray-500">Curated portfolios and zero-commission direct plan
+                                        options.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="inline-flex items-center text-primary-blue font-semibold hover:gap-2 transition-all"
+                            href="#">
+                            Enquire Now <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer class="bg-white pt-20 pb-10 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="size-8 text-primary-blue flex items-center justify-center">
+                            <span class="material-symbols-outlined text-3xl">verified_user</span>
+                        </div>
+                        <span class="font-display font-bold text-xl tracking-tight text-charcoal">Delight
+                            Services</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                        Elevating standards in insurance and lifestyle products. We build trust through transparency and
+                        quality.
+                    </p>
+                    <div class="flex gap-4">
+                        <a class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary-blue hover:text-white transition-all"
+                            href="#">
+                            <span class="font-bold text-xs">FB</span>
+                        </a>
+                        <a class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary-blue hover:text-white transition-all"
+                            href="#">
+                            <span class="font-bold text-xs">TW</span>
+                        </a>
+                        <a class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary-blue hover:text-white transition-all"
+                            href="#">
+                            <span class="font-bold text-xs">IG</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold text-charcoal mb-6">Services</h4>
+                    <ul class="flex flex-col gap-3 text-sm text-gray-500">
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">Health Insurance</a></li>
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">Life Insurance</a></li>
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">Motor Insurance</a></li>
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">Investment Plans</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold text-charcoal mb-6">Products</h4>
+                    <ul class="flex flex-col gap-3 text-sm text-gray-500">
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">Luxury Perfumes</a></li>
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">Incense Sticks</a></li>
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">Gift Bundles</a></li>
+                        <li><a class="hover:text-primary-blue transition-colors" href="#">New Arrivals</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold text-charcoal mb-6">Contact</h4>
+                    <ul class="flex flex-col gap-4 text-sm text-gray-500">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary-blue mt-0.5 text-lg">location_on</span>
+                            <span>123 Delight Tower, Business Bay,<br />Financial District</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary-blue text-lg">call</span>
+                            <span>+91 7594 940 103</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary-blue text-lg">mail</span>
+                            <span>delightservices2021@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-gray-400">© 2024 Delight Services. All rights reserved.</p>
+                <div class="flex gap-6 text-sm text-gray-400">
+                    <a class="hover:text-charcoal transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-charcoal transition-colors" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu-drawer"
+        class="fixed inset-y-0 right-0 w-full sm:w-80 bg-white z-[60] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 flex justify-between items-center border-b border-gray-100">
+            <span class="font-display font-bold text-lg text-charcoal">Menu</span>
+            <button id="mobile-menu-close" class="p-2 text-gray-500 hover:text-charcoal transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+            <nav class="flex flex-col gap-4">
+                <a class="text-lg font-medium text-charcoal hover:text-primary-blue transition-colors"
+                    href="home.html">Home</a>
+                <a class="text-lg font-medium text-charcoal hover:text-primary-blue transition-colors"
+                    href="index1.html">Services</a>
+                <a class="text-lg font-medium text-charcoal hover:text-primary-blue transition-colors"
+                    href="products.html">Products</a>
+                <a class="text-lg font-medium text-charcoal hover:text-primary-blue transition-colors"
+                    href="aboutus.html">About Us</a>
+                <a class="text-lg font-medium text-charcoal hover:text-primary-blue transition-colors"
+                    href="contact.html">Contact</a>
+            </nav>
+            <div class="border-t border-gray-100 pt-6 flex flex-col gap-4">
+                <a class="text-center text-sm font-semibold text-charcoal hover:text-primary-blue transition-colors"
+                    href="#">Log In</a>
+                <button onclick="window.location.href='started.html'"
+                    class="w-full bg-charcoal hover:bg-black text-white font-medium px-6 py-3 rounded-xl transition-all shadow-lg hover:shadow-xl text-sm">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

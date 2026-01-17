@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Glassmorphism Floating Inquiry Form</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2593f4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "2xl": "4rem", "full": "9999px" },
+                    boxShadow: {
+                        "neon": "0 0 5px theme('colors.primary'), 0 0 20px theme('colors.primary')",
+                        "glass": "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for text areas */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        textarea::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        textarea::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display antialiased overflow-hidden">
+    <!-- BACKGROUND CONTENT (Simulated Page Behind Modal) -->
+    <div aria-hidden="true"
+        class="relative w-full h-screen overflow-hidden opacity-100 pointer-events-none select-none filter blur-[2px]">
+        <div class="flex flex-col h-full bg-[#101a23]">
+            <!-- Nav Simulator -->
+            <header class="flex items-center justify-between border-b border-white/10 px-10 py-4 bg-[#101a23]">
+                <div class="flex items-center gap-4 text-white">
+                    <span class="material-symbols-outlined text-primary">diamond</span>
+                    <h2 class="text-white text-lg font-bold">Delight Services</h2>
+                </div>
+                <div class="flex gap-8 text-white/70 text-sm font-medium">
+                    <span>Services</span>
+                    <span>Portfolio</span>
+                    <span>About</span>
+                </div>
+            </header>
+            <!-- Hero Simulator -->
+            <div class="flex-1 flex flex-col items-center justify-center p-10 relative">
+                <div class="absolute inset-0 z-0">
+                    <img alt="Background" class="w-full h-full object-cover opacity-40 mix-blend-screen"
+                        data-alt="Abstract futuristic network background with blue glowing nodes"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzLCOF3IzWpzabEL15tUTVoWiFlmz2tzRCvTCh06fpxT18LhJ6sB_suaCCvA9OiC0IEfihRAAPCtcy4Gir8ufSITVzSP1feBUpDAzp8hr2gCmeb8Fuu0pdAXEpDwhjM0U_6t02NO35h9AfdmRgp4e7YKnmTCp0_hmZ2ZrHwA91n6jGrBIbrnpBRx8Uqsg3hrdvL7sypQoOafQ_3BdnxadqjStdXEGU8JAnAjUFSdEEcy5GL_Ce-g-gUz8q8B1xizvreJgb5yH3R0s" />
+                </div>
+                <h1 class="text-6xl font-bold text-white z-10 text-center mb-4 tracking-tighter">Future of Service</h1>
+                <p class="text-xl text-white/60 z-10 max-w-2xl text-center">Experience the next generation of digital
+                    interaction.</p>
+            </div>
+        </div>
+    </div>
+    <!-- MAIN INTERFACE: The Glassmorphism Float -->
+    <!-- Backdrop -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+        <div class="absolute inset-0 bg-[#050b14]/70 backdrop-blur-[24px]"></div>
+        <!-- Modal Container -->
+        <div
+            class="relative w-full max-w-[1000px] bg-white/5 border border-white/10 rounded-2xl shadow-glass overflow-hidden flex flex-col md:flex-row group/modal">
+            <!-- Left Panel: Visual/Context -->
+            <div
+                class="hidden md:flex flex-col justify-between w-1/3 bg-white/5 p-8 border-r border-white/5 relative overflow-hidden">
+                <!-- Decorative Gradients -->
+                <div
+                    class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/10 to-transparent opacity-50">
+                </div>
+                <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-primary/20 rounded-full blur-[80px]"></div>
+                <div class="relative z-10">
+                    <div
+                        class="size-10 bg-white/10 rounded-full flex items-center justify-center mb-6 text-primary border border-white/10">
+                        <span class="material-symbols-outlined">auto_awesome</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight mb-2">Let's Craft <br /> Your Vision</h2>
+                    <p class="text-blue-200/60 text-sm leading-relaxed">
+                        Join the waiting list for our 2026 service rollout. We are currently accepting select inquiries
+                        for high-impact projects.
+                    </p>
+                </div>
+                <div class="relative z-10 mt-auto space-y-4">
+                    <div class="flex items-center gap-3 text-white/80">
+                        <span class="material-symbols-outlined text-primary text-xl">verified</span>
+                        <span class="text-xs font-medium tracking-wide">24h Response Time</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-white/80">
+                        <span class="material-symbols-outlined text-primary text-xl">encrypted</span>
+                        <span class="text-xs font-medium tracking-wide">End-to-End Encrypted</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Panel: Bento Grid Form -->
+            <div class="flex-1 p-6 md:p-10 bg-white/5 relative">
+                <!-- Close Button -->
+                <button class="absolute top-6 right-6 text-white/40 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-white mb-1">Inquire Now</h3>
+                    <p class="text-sm text-white/40">Fill out the asymmetric grid below to get started.</p>
+                </div>
+                <!-- Bento Grid Input Layout -->
+                <form class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <!-- Name (Asymmetric Span) -->
+                    <div class="md:col-span-5 group">
+                        <div class="relative h-14 w-full">
+                            <input
+                                class="peer w-full h-full bg-[#0f1923]/60 border border-white/10 rounded-xl px-4 text-white placeholder-transparent focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(37,147,244,0.15)] transition-all duration-300"
+                                placeholder=" " type="text" />
+                            <label
+                                class="absolute left-4 top-4 text-white/40 text-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-white/40 peer-focus:top-1 peer-focus:text-[10px] peer-focus:text-primary pointer-events-none">Full
+                                Name</label>
+                            <span
+                                class="material-symbols-outlined absolute right-4 top-4 text-white/20 peer-focus:text-primary transition-colors text-xl">person</span>
+                        </div>
+                    </div>
+                    <!-- Email (Asymmetric Span) -->
+                    <div class="md:col-span-7 group">
+                        <div class="relative h-14 w-full">
+                            <input
+                                class="peer w-full h-full bg-[#0f1923]/60 border border-white/10 rounded-xl px-4 text-white placeholder-transparent focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(37,147,244,0.15)] transition-all duration-300"
+                                placeholder=" " type="email" />
+                            <label
+                                class="absolute left-4 top-4 text-white/40 text-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-white/40 peer-focus:top-1 peer-focus:text-[10px] peer-focus:text-primary pointer-events-none">Email
+                                Address</label>
+                            <span
+                                class="material-symbols-outlined absolute right-4 top-4 text-white/20 peer-focus:text-primary transition-colors text-xl">mail</span>
+                        </div>
+                    </div>
+                    <!-- Service Interest (Full Row for visual break) -->
+                    <div class="md:col-span-12 group">
+                        <div class="relative h-14 w-full">
+                            <select
+                                class="appearance-none w-full h-full bg-[#0f1923]/60 border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(37,147,244,0.15)] transition-all duration-300 cursor-pointer">
+                                <option class="text-gray-500" disabled="" selected="" value="">Select Service
+                                    Interest...</option>
+                                <option class="bg-background-dark text-white" value="design">UI/UX Design Strategy
+                                </option>
+                                <option class="bg-background-dark text-white" value="dev">Full-Stack Development
+                                </option>
+                                <option class="bg-background-dark text-white" value="consult">Brand Consultation
+                                </option>
+                            </select>
+                            <span
+                                class="material-symbols-outlined absolute right-4 top-4 text-white/20 pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+                    <!-- Message (Large Area) -->
+                    <div class="md:col-span-12 group">
+                        <div class="relative w-full">
+                            <textarea
+                                class="w-full bg-[#0f1923]/60 border border-white/10 rounded-xl p-4 h-32 text-white placeholder-white/30 focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(37,147,244,0.15)] resize-none transition-all duration-300"
+                                placeholder="Tell us about your project..."></textarea>
+                            <div class="absolute bottom-3 right-3 flex gap-2">
+                                <button class="text-white/20 hover:text-primary transition-colors" type="button">
+                                    <span class="material-symbols-outlined text-lg">attach_file</span>
+                                </button>
+                                <button class="text-white/20 hover:text-primary transition-colors" type="button">
+                                    <span class="material-symbols-outlined text-lg">mic</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Liquid Action Button -->
+                    <div class="md:col-span-12 mt-2">
+                        <button class="relative w-full h-14 overflow-hidden rounded-xl group/btn">
+                            <!-- Liquid Gradient Background -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-r from-[#2593f4] via-teal-400 to-[#2593f4] bg-[length:200%_auto] transition-all duration-500 group-hover/btn:bg-right">
+                            </div>
+                            <!-- Content -->
+                            <div
+                                class="relative z-10 flex items-center justify-center gap-2 text-white font-bold tracking-wide">
+                                <span>Send Message</span>
+                                <span
+                                    class="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+                            </div>
+                            <!-- Shine effect -->
+                            <div
+                                class="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 rounded-xl">
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Floating Live Support Bubble -->
+    <div class="fixed bottom-8 right-8 z-[60] group cursor-pointer">
+        <!-- Pulse Aura -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping"></span>
+        <!-- Main Bubble -->
+        <div
+            class="relative flex items-center justify-center size-14 bg-[#101a23] rounded-full border border-primary text-primary shadow-[0_0_20px_rgba(37,147,244,0.4)] hover:scale-110 transition-transform duration-300">
+            <span class="material-symbols-outlined text-3xl">support_agent</span>
+        </div>
+        <!-- Tooltip -->
+        <div
+            class="absolute right-full mr-4 top-1/2 -translate-y-1/2 whitespace-nowrap px-3 py-1 bg-white/10 backdrop-blur-md rounded-lg text-white text-xs font-medium border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Live Support Online
+        </div>
+    </div>
+</body>
+
+</html>

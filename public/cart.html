@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Cart - Delight Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Rozha+One&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "heritage-bg": "#FAF7F2",
+                        "heritage-navy": "#0F172A",
+                        "heritage-gold": "#C5A059",
+                        "heritage-text": "#2D241E",
+                    },
+                    fontFamily: {
+                        "serif": ["Rozha One", "serif"],
+                        "sans": ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-sans bg-heritage-bg text-heritage-text min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="home.html" class="flex items-center gap-3">
+                <img src="delight.png" alt="Logo" class="w-10 h-10" />
+                <span class="font-bold text-xl text-heritage-navy">Delight Services</span>
+            </a>
+            <a href="products.html" class="text-sm text-heritage-gold hover:underline">
+                ← Continue Shopping
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto px-4 py-8">
+
+        <h1 class="text-3xl font-serif font-bold text-heritage-navy mb-8">My Cart</h1>
+
+        <!-- Cart Items Container -->
+        <div id="cart-container" class="space-y-4 mb-8">
+            <div class="text-center py-12">
+                <span class="material-symbols-outlined text-4xl text-gray-400 animate-spin">progress_activity</span>
+                <p class="text-sm text-gray-500 mt-2">Loading your cart...</p>
+            </div>
+        </div>
+
+        <!-- Cart Summary -->
+        <div id="cart-summary" class="hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 sticky bottom-4">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-lg font-semibold text-heritage-navy">Subtotal</span>
+                    <span id="cart-total" class="text-2xl font-bold text-heritage-gold">₹0</span>
+                </div>
+                <div class="text-xs text-gray-500 mb-4">
+                    Taxes and shipping calculated at checkout
+                </div>
+                <button id="checkout-btn"
+                    class="w-full bg-heritage-navy text-white py-4 rounded-xl text-sm font-bold hover:bg-black transition shadow-lg flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ========================================
+        // CART PAGE LOGIC
+        // ========================================
+
+        const SUPABASE_URL = 'https://rkhzwlwhprhlecobvxcw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJraHp3bHdocHJobGVjb2J2eGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzI5ODIsImV4cCI6MjA4NDE0ODk4Mn0.jDj0C5lc3h7-PSgPAv-GKFY_yUeULcfWrW3nfqTx5L8';
+
+        // Fix: Use window.supabaseClient to avoid "supabase has already been declared" error
+        if (!window.supabaseClient) {
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+
+        async function ensureAuth() {
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                alert('Please log in to view your cart');
+                window.location.href = 'login.html';
+                return null;
+            }
+            return session.access_token;
+        }
+
+        async function loadCart() {
+            console.log('[CART] Loading cart...');
+
+            const token = await ensureAuth();
+            if (!token) return;
+
+            const container = document.getElementById('cart-container');
+            const summary = document.getElementById('cart-summary');
+
+            try {
+                const response = await fetch('/api/cart', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch cart');
+
+                const { cart } = await response.json();
+
+                console.log('[CART] Received', cart.length, 'items');
+
+                if (!cart || cart.length === 0) {
+                    container.innerHTML = `
+            <div class="text-center py-20">
+              <span class="material-symbols-outlined text-6xl text-gray-300">shopping_cart</span>
+              <p class="text-xl text-gray-400 mt-4 mb-6">Your cart is empty</p>
+              <a href="products.html" 
+                 class="inline-block px-6 py-3 bg-heritage-navy text-white rounded-lg hover:bg-black transition">
+                Start Shopping
+              </a>
+            </div>
+          `;
+                    return;
+                }
+
+                // Calculate total
+                let total = 0;
+
+                // Render items
+                container.innerHTML = '';
+
+                cart.forEach(item => {
+                    const product = item.product;
+                    const lineTotal = Number(product.price) * item.quantity;
+                    total += lineTotal;
+
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition';
+
+                    const imgUrl = product.primary_image_url || product.image_url || 'https://placehold.co/200x200?text=No+Image';
+
+                    row.innerHTML = `
+            <div class="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+              <img src="${imgUrl}" 
+                   class="w-full h-full object-cover" 
+                   alt="${product.name}"
+                   onerror="this.src='https://placehold.co/200x200?text=No+Image'">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-heritage-navy">${product.name}</h3>
+              <p class="text-xs text-gray-500 capitalize">${product.category || 'Product'}</p>
+              <p class="text-sm text-gray-600 mt-1">Qty: ${item.quantity}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-lg font-bold text-heritage-gold">₹${lineTotal.toFixed(2)}</p>
+              <button onclick="removeItem(${item.id})" 
+                      class="text-xs text-red-500 hover:text-red-700 mt-2 flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                Remove
+              </button>
+            </div>
+          `;
+
+                    container.appendChild(row);
+                });
+
+                // Show summary
+                document.getElementById('cart-total').textContent = '₹' + total.toFixed(2);
+                summary.classList.remove('hidden');
+
+                // Update localStorage count
+                localStorage.setItem('delight_cart_count', cart.reduce((sum, item) => sum + item.quantity, 0));
+
+            } catch (error) {
+                console.error('[CART] Error:', error);
+                container.innerHTML = `
+          <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+            <p class="text-red-600 font-semibold">Failed to load cart</p>
+            <p class="text-sm text-red-500 mt-2">${error.message}</p>
+            <button onclick="location.reload()" 
+                    class="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+              Retry
+            </button>
+          </div>
+        `;
+            }
+        }
+
+        async function removeItem(itemId) {
+            if (!confirm('Remove this item from cart?')) return;
+
+            const token = await ensureAuth();
+            if (!token) return;
+
+            try {
+                const response = await fetch(`/api/cart/${itemId}`, {
+                    method: 'DELETE',
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    loadCart(); // Reload cart
+                } else {
+                    alert('Failed to remove item');
+                }
+            } catch (error) {
+                console.error('[CART] Remove error:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function checkout() {
+            const token = await ensureAuth();
+            if (!token) return;
+
+            // Just redirect to the checkout page
+            window.location.href = 'checkout.html';
+        }
+
+        // Initialize
+        window.removeItem = removeItem;
+        document.getElementById('checkout-btn').addEventListener('click', checkout);
+        loadCart();
+    </script>
+
+</body>
+
+</html>

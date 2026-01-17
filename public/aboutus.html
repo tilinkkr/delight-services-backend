@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About Delight Services</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2288e2",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111921",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="auth.js"></script>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-x-hidden">
+    <!-- TopNavBar -->
+    <header
+        class="fixed w-full z-50 transition-all duration-300 bg-white/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-[1280px] mx-auto px-4 md:px-10">
+            <div class="flex justify-between items-center h-20">
+                <a href="home.html" class="flex items-center gap-3 cursor-pointer group">
+                    <img src="delight.png" alt="Logo"
+                        class="w-10 h-10 object-contain group-hover:scale-105 transition-transform">
+                    <span class="font-display font-bold text-xl tracking-tight text-slate-900 dark:text-white">Delight
+                        Services</span>
+                </a>
+                <nav class="hidden lg:flex gap-10 items-center">
+                    <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors dark:text-slate-400 dark:hover:text-primary"
+                        href="home.html">Home</a>
+                    <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors dark:text-slate-400 dark:hover:text-primary"
+                        href="index1.html">Services</a>
+                    <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors dark:text-slate-400 dark:hover:text-primary"
+                        href="products.html">Products</a>
+                    <a class="text-sm font-medium text-primary hover:text-primary transition-colors"
+                        href="aboutus.html">About
+                        Us</a>
+                </nav>
+                <div id="auth-buttons-container" class="hidden lg:flex items-center gap-4">
+                    <a class="text-sm font-semibold text-slate-900 dark:text-white hover:text-primary transition-colors"
+                        href="login.html">Log
+                        In</a>
+                    <button onclick="window.location.href='started.html'"
+                        class="bg-slate-900 dark:bg-white hover:bg-black dark:hover:bg-gray-200 text-white dark:text-slate-900 font-medium px-6 py-2.5 rounded-full transition-all shadow-md hover:shadow-lg text-sm">
+                        Get Started
+                    </button>
+                </div>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-toggle" class="lg:hidden p-2 text-slate-900 dark:text-white">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- HeroSection -->
+    <section class="relative w-full">
+        <div class="@container">
+            <div class="@[480px]:p-4 max-w-[1280px] mx-auto">
+                <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-8 relative overflow-hidden"
+                    data-alt="Professional team collaborating in a modern office environment"
+                    style='background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDl_UTr871ng4UK8XGGY0TW7e5pcdKzT632f1bcd-9Q88Po2w_I79DVjJSfLNSrdzK_cI5j9V-yKcUgr19JVPnB7l5J-2_U5NS9AYCLBSeuMCSQLih2-L4OfTO0QM69GGbU3LdoQdhLnJrZfkq1xvT-Rs9A9mkFY3dryqhUegKocDJzfr9_H_ET-9v7P5z-_g2Kf-7p80YQc6qmQNEBxvk-awCfogmAF258xTBR4DsQSWCZm5J6EzUkE2-6BrQ7T6MfnyWHEG037BE");'>
+                    <div class="flex flex-col gap-4 text-center max-w-[800px] z-10">
+                        <h1
+                            class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl md:text-6xl">
+                            Built on trust, grown with care
+                        </h1>
+                        <h2 class="text-slate-100 text-lg font-normal leading-relaxed max-w-[600px] mx-auto">
+                            Delivering premium insurance and financial solutions since 2021. We help you navigate your
+                            future with confidence.
+                        </h2>
+                    </div>
+                    <button onclick="window.location.href='contact.html'"
+                        class="z-10 flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-8 bg-primary text-white text-base font-bold tracking-[0.015em] hover:bg-blue-600 transition-transform hover:scale-105 shadow-lg">
+                        <span class="truncate">Contact Us</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Our Journey & Stats Section -->
+    <section class="w-full py-16 px-4 md:px-10">
+        <div class="max-w-[960px] mx-auto flex flex-col gap-12">
+            <!-- Section Header Content -->
+            <div class="flex flex-col gap-6 text-center md:text-left md:flex-row md:items-start md:justify-between">
+                <div class="flex-1">
+                    <h2
+                        class="text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-4 text-slate-900 dark:text-white">
+                        Our Journey</h2>
+                    <div class="w-20 h-1.5 bg-primary rounded-full mb-6 mx-auto md:mx-0"></div>
+                </div>
+                <div class="flex-[2] flex flex-col gap-4">
+                    <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+                        Founded in 2021, Delight Services began with a simple mission: to demystify insurance and
+                        financial planning for everyone. What started as a small team of dedicated advisors has grown
+                        into a trusted partner for hundreds of families and businesses.
+                    </p>
+                    <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+                        We believe that true financial security comes from understanding, not just purchasing products.
+                        Our expansion into consumer products reflects our commitment to bringing quality, transparency,
+                        and care into every aspect of our clients' lives.
+                    </p>
+                </div>
+            </div>
+            <!-- ProfileStats -->
+            <div class="w-full mt-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div
+                        class="flex flex-col gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 items-center text-center shadow-sm hover:shadow-md transition-shadow">
+                        <p class="text-primary tracking-tight text-3xl font-black leading-tight count-up"
+                            data-target="2021">0</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wide">
+                            Founded</p>
+                    </div>
+                    <div
+                        class="flex flex-col gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 items-center text-center shadow-sm hover:shadow-md transition-shadow">
+                        <p class="text-primary tracking-tight text-3xl font-black leading-tight count-up"
+                            data-target="500" data-suffix="+">0+</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wide">Happy
+                            Clients</p>
+                    </div>
+                    <div
+                        class="flex flex-col gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 items-center text-center shadow-sm hover:shadow-md transition-shadow">
+                        <p class="text-primary tracking-tight text-3xl font-black leading-tight count-up"
+                            data-target="100" data-suffix="%">0%</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wide">
+                            Commitment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Core Values Section -->
+    <section class="w-full py-16 px-4 md:px-10 bg-slate-50 dark:bg-slate-900/50">
+        <div class="max-w-[960px] mx-auto flex flex-col gap-10">
+            <div class="flex flex-col items-center text-center gap-4">
+                <h2 class="text-3xl md:text-4xl font-black leading-tight tracking-tight text-slate-900 dark:text-white">
+                    The Values That Drive Us
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 text-base max-w-[720px]">
+                    We are committed to providing transparency and simplicity in every interaction. These core
+                    principles guide every decision we make.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Value 1 -->
+                <div
+                    class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 hover:border-primary/50 hover:shadow-lg transition-all">
+                    <div
+                        class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">verified_user</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h3 class="text-lg font-bold leading-tight">Trust &amp; Transparency</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Open and honest
+                            communication in every deal. No hidden fees.</p>
+                    </div>
+                </div>
+                <!-- Value 2 -->
+                <div
+                    class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 hover:border-primary/50 hover:shadow-lg transition-all">
+                    <div
+                        class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">volunteer_activism</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h3 class="text-lg font-bold leading-tight">Customer First</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Prioritizing your needs
+                            above all else. We listen before we advise.</p>
+                    </div>
+                </div>
+                <!-- Value 3 -->
+                <div
+                    class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 hover:border-primary/50 hover:shadow-lg transition-all">
+                    <div
+                        class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">check_circle</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h3 class="text-lg font-bold leading-tight">Simplicity</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Making complex financial
+                            products easy to understand.</p>
+                    </div>
+                </div>
+                <!-- Value 4 -->
+                <div
+                    class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 hover:border-primary/50 hover:shadow-lg transition-all">
+                    <div
+                        class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">all_inclusive</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h3 class="text-lg font-bold leading-tight">Long-Term Bonds</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Building lasting
+                            relationships. We grow with you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Leadership / Team Section (Optional) -->
+    <section class="w-full py-16 px-4 md:px-10">
+        <div class="max-w-[960px] mx-auto flex flex-col gap-10">
+            <h2 class="text-2xl md:text-3xl font-bold leading-tight text-center">Meet Our Leadership</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Leader 1 -->
+                <div class="flex flex-col items-center text-center gap-3">
+                    <div
+                        class="size-32 rounded-full bg-slate-200 overflow-hidden mb-2 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-6xl text-slate-400">person</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Abhiram</h3>
+                        <p class="text-primary font-medium text-sm">Founder</p>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Passionate about financial literacy and
+                        accessible insurance for all.</p>
+                </div>
+                <!-- Leader 2 -->
+                <div class="flex flex-col items-center text-center gap-3">
+                    <div
+                        class="size-32 rounded-full bg-slate-200 overflow-hidden mb-2 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-6xl text-slate-400">person</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Tilin Bijoy</h3>
+                        <p class="text-primary font-medium text-sm">Co-founder</p>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Expert in risk management and strategic
+                        growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- CTA Section -->
+    <section class="w-full py-10 px-4">
+        <div class="max-w-[960px] mx-auto bg-primary rounded-2xl p-10 md:p-14 text-center text-white shadow-xl">
+            <h2 class="text-3xl font-bold mb-4">Ready to secure your future?</h2>
+            <p class="text-blue-100 text-lg mb-8 max-w-[600px] mx-auto">Let us help you find the right solutions
+                tailored to your unique needs.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="px-8 py-3 bg-white text-primary font-bold rounded-xl hover:bg-blue-50 transition-colors">
+                    Get a Free Quote
+                </button>
+                <button onclick="window.location.href='contact.html'"
+                    class="px-8 py-3 bg-blue-700 text-white font-bold rounded-xl hover:bg-blue-800 transition-colors">
+                    Contact Our Team
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer
+        class="w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-12 px-4 md:px-10 mt-10">
+        <div class="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="md:col-span-1 flex flex-col gap-4">
+                <div class="flex items-center gap-2 text-slate-900 dark:text-white">
+                    <div class="size-6 text-primary">
+                        <span class="material-symbols-outlined">verified_user</span>
+                    </div>
+                    <h2 class="text-lg font-bold">Delight Services</h2>
+                </div>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Providing trusted insurance and financial solutions designed for modern life.
+                </p>
+                <div class="flex gap-4 mt-2">
+                    <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span
+                            class="material-symbols-outlined">social_leaderboard</span></a>
+                    <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span
+                            class="material-symbols-outlined">smart_display</span></a>
+                    <!-- Represents Twitter/X or similar media -->
+                    <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span
+                            class="material-symbols-outlined">post_add</span></a> <!-- Represents LinkedIn/Blog -->
+                </div>
+            </div>
+            <div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-4">Company</h3>
+                <ul class="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <li><a class="hover:text-primary" href="#">About Us</a></li>
+                    <li><a class="hover:text-primary" href="#">Careers</a></li>
+                    <li><a class="hover:text-primary" href="#">Our Culture</a></li>
+                    <li><a class="hover:text-primary" href="#">Press</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-4">Services</h3>
+                <ul class="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <li><a class="hover:text-primary" href="#">Insurance</a></li>
+                    <li><a class="hover:text-primary" href="#">Financial Planning</a></li>
+                    <li><a class="hover:text-primary" href="#">Consumer Products</a></li>
+                    <li><a class="hover:text-primary" href="#">Consulting</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-4">Contact</h3>
+                <ul class="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <li class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">location_on</span>
+                        <span>123 Finance Way, Cityville</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">mail</span>
+                        <span>delightservices2021@gmail.com</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">call</span>
+                        <span>+91 7594 940 103</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-[1280px] mx-auto mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 text-center text-sm text-slate-400">
+            <p>© 2024 Delight Services. All rights reserved. Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Number Counting Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.count-up');
+
+            const animateCounter = (counter) => {
+                const target = +counter.getAttribute('data-target');
+                const suffix = counter.getAttribute('data-suffix') || '';
+                const duration = 2000; // 2 seconds animation
+                const startTime = performance.now();
+
+                // For 2021, let's start a bit closer so it doesn't take forever to verify visually or look odd
+                // But generally 0 to target is fine with easeOut
+
+                const updateCount = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Ease out quart function for smooth slowing down
+                    const easeOut = 1 - Math.pow(1 - progress, 4);
+
+                    const currentCount = Math.floor(easeOut * target);
+
+                    counter.innerText = currentCount + suffix;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = target + suffix;
+                    }
+                };
+
+                requestAnimationFrame(updateCount);
+            };
+
+            // Intersection Observer to start animation when visible
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        animateCounter(counter);
+                        observer.unobserve(counter); // Only run once
+                    }
+                });
+            }, observerOptions);
+
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+        });
+    </script>
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu-drawer"
+        class="fixed inset-y-0 right-0 w-full sm:w-80 bg-white z-[60] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 flex justify-between items-center border-b border-gray-100">
+            <span class="font-display font-bold text-lg text-slate-900">Menu</span>
+            <button id="mobile-menu-close" class="p-2 text-gray-500 hover:text-slate-900 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+            <nav class="flex flex-col gap-4">
+                <a class="text-lg font-medium text-slate-700 hover:text-primary transition-colors"
+                    href="home.html">Home</a>
+                <a class="text-lg font-medium text-slate-700 hover:text-primary transition-colors"
+                    href="index1.html">Services</a>
+                <a class="text-lg font-medium text-slate-700 hover:text-primary transition-colors"
+                    href="products.html">Products</a>
+                <a class="text-lg font-medium text-slate-700 hover:text-primary transition-colors"
+                    href="aboutus.html">About Us</a>
+                <a class="text-lg font-medium text-slate-700 hover:text-primary transition-colors"
+                    href="contact.html">Contact</a>
+            </nav>
+            <div class="border-t border-gray-100 pt-6 flex flex-col gap-4">
+                <a class="text-center text-sm font-semibold text-slate-700 hover:text-primary transition-colors"
+                    href="#">Log In</a>
+                <button onclick="window.location.href='started.html'"
+                    class="w-full bg-slate-900 hover:bg-black text-white font-medium px-6 py-3 rounded-xl transition-all shadow-md hover:shadow-lg text-sm">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

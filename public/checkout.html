@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Delight Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Rozha+One&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "heritage-bg": "#FAF7F2",
+                        "heritage-navy": "#0F172A",
+                        "heritage-gold": "#C5A059",
+                        "heritage-text": "#2D241E",
+                    },
+                    fontFamily: {
+                        "serif": ["Rozha One", "serif"],
+                        "sans": ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-sans bg-heritage-bg text-heritage-text min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="home.html" class="flex items-center gap-3">
+                <img src="delight.png" alt="Logo" class="w-10 h-10" />
+                <span class="font-bold text-xl text-heritage-navy">Delight Services</span>
+            </a>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span class="material-symbols-outlined text-lg">lock</span>
+                Secure Checkout
+            </div>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 rounded-full bg-heritage-gold text-white flex items-center justify-center text-sm font-bold">
+                        1</div>
+                    <a href="cart.html" class="text-sm font-semibold hover:underline">Cart</a>
+                </div>
+                <div class="flex-1 h-0.5 bg-heritage-gold mx-4"></div>
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 rounded-full bg-heritage-gold text-white flex items-center justify-center text-sm font-bold">
+                        2</div>
+                    <span class="text-sm font-semibold text-heritage-gold">Payment</span>
+                </div>
+                <div class="flex-1 h-0.5 bg-gray-200 mx-4"></div>
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-sm font-bold">
+                        3</div>
+                    <span class="text-sm text-gray-500">Confirm</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="grid lg:grid-cols-3 gap-8">
+
+            <!-- Left: Payment Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                    <h2 class="text-2xl font-serif font-bold text-heritage-navy mb-6">Payment Method</h2>
+
+                    <div class="space-y-4 mb-6">
+                        <label
+                            class="flex items-center gap-3 p-4 border-2 border-heritage-gold rounded-lg cursor-pointer bg-heritage-gold/5">
+                            <input type="radio" name="payment" value="card" checked class="w-5 h-5"
+                                onchange="togglePayment('card')" />
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-heritage-gold">credit_card</span>
+                                <span class="font-semibold">Credit/Debit Card</span>
+                            </div>
+                        </label>
+
+                        <label
+                            class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-heritage-gold transition">
+                            <input type="radio" name="payment" value="upi" class="w-5 h-5"
+                                onchange="togglePayment('upi')" />
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined">account_balance</span>
+                                <span class="font-semibold">UPI</span>
+                            </div>
+                        </label>
+
+                        <label
+                            class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-heritage-gold transition">
+                            <input type="radio" name="payment" value="cod" class="w-5 h-5"
+                                onchange="togglePayment('cod')" />
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined">local_shipping</span>
+                                <span class="font-semibold">Cash on Delivery</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Card Form -->
+                    <div id="card-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Card Number</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-heritage-gold" />
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Expiry Date</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-heritage-gold" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123" maxlength="3"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-heritage-gold" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Cardholder Name</label>
+                            <input type="text" id="card-name" placeholder="John Doe"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-heritage-gold" />
+                        </div>
+                    </div>
+
+                    <!-- UPI Form (hidden by default) -->
+                    <div id="upi-form" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">UPI ID</label>
+                            <input type="text" id="upi-id" placeholder="yourname@upi"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-heritage-gold" />
+                        </div>
+                    </div>
+
+                    <!-- COD Message (hidden by default) -->
+                    <div id="cod-message" class="hidden bg-amber-50 border border-amber-200 rounded-lg p-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-amber-600">info</span>
+                            <div class="text-sm text-amber-800">
+                                <p class="font-semibold mb-1">Cash on Delivery</p>
+                                <p>Please keep exact change ready. Our delivery partner will collect the payment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="pay-btn" onclick="handlePayment()"
+                    class="w-full bg-heritage-navy text-white py-4 rounded-xl text-lg font-bold hover:bg-black transition shadow-lg flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">lock</span>
+                    Pay Securely
+                </button>
+            </div>
+
+            <!-- Right: Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg p-6 sticky top-4">
+                    <h3 class="text-xl font-serif font-bold text-heritage-navy mb-4">Order Summary</h3>
+
+                    <div id="summary-items" class="space-y-3 mb-4 max-h-60 overflow-y-auto">
+                        <!-- Items will load here -->
+                        <div class="text-center py-4">
+                            <span
+                                class="material-symbols-outlined text-2xl text-gray-400 animate-spin">progress_activity</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 pt-4 space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span id="subtotal">₹0</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Shipping</span>
+                            <span class="text-green-600">FREE</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Tax (18%)</span>
+                            <span id="tax">₹0</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-2 mt-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold">Total</span>
+                                <span id="total" class="text-2xl font-bold text-heritage-gold">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Payment Processing Modal -->
+    <div id="payment-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center">
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-heritage-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span
+                        class="material-symbols-outlined text-4xl text-heritage-gold animate-spin">progress_activity</span>
+                </div>
+                <h3 class="text-2xl font-bold text-heritage-navy mb-2">Processing Payment</h3>
+                <p class="text-gray-600">Please wait while we process your payment...</p>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div id="progress-bar" class="bg-heritage-gold h-full transition-all duration-300" style="width: 0%">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // CHECKOUT LOGIC
+        // ========================================
+
+        const SUPABASE_URL = 'https://rkhzwlwhprhlecobvxcw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJraHp3bHdocHJobGVjb2J2eGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzI5ODIsImV4cCI6MjA4NDE0ODk4Mn0.jDj0C5lc3h7-PSgPAv-GKFY_yUeULcfWrW3nfqTx5L8';
+
+        // Singleton Supabase Client
+        if (!window.supabaseClient) {
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+
+        // Toggle Payment Forms
+        window.togglePayment = function (method) {
+            document.getElementById('card-form').classList.add('hidden');
+            document.getElementById('upi-form').classList.add('hidden');
+            document.getElementById('cod-message').classList.add('hidden');
+
+            if (method === 'card') document.getElementById('card-form').classList.remove('hidden');
+            if (method === 'upi') document.getElementById('upi-form').classList.remove('hidden');
+            if (method === 'cod') document.getElementById('cod-message').classList.remove('hidden');
+        };
+
+        // Auth Check
+        async function ensureAuth() {
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return session.access_token;
+        }
+
+        // Load Cart Summary
+        async function loadSummary() {
+            const token = await ensureAuth();
+            if (!token) return;
+
+            try {
+                const response = await fetch('/api/cart', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                const { cart } = await response.json();
+                const itemsContainer = document.getElementById('summary-items');
+
+                if (!cart || cart.length === 0) {
+                    alert('Your cart is empty');
+                    window.location.href = 'products.html';
+                    return;
+                }
+
+                // Render Items
+                itemsContainer.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                        <img src="${item.product.primary_image_url || 'https://placehold.co/100'}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold truncate">${item.product.name}</p>
+                        <p class="text-xs text-gray-500">Qty: ${item.quantity}</p>
+                    </div>
+                    <span class="text-sm font-medium">₹${(item.product.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+                // Calculate Totals
+                const subtotal = cart.reduce((sum, item) => sum + (Number(item.product.price) * item.quantity), 0);
+                const tax = subtotal * 0.18;
+                const total = subtotal + tax;
+
+                document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+                document.getElementById('tax').textContent = `₹${tax.toFixed(2)}`;
+                document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+                document.getElementById('pay-btn').innerHTML = `<span class="material-symbols-outlined">lock</span> Pay ₹${total.toFixed(2)}`;
+
+            } catch (e) {
+                console.error(e);
+                alert('Failed to load order summary');
+            }
+        }
+
+        // Handle Payment Validation & Processing
+        window.handlePayment = async function () {
+            const token = await ensureAuth();
+            if (!token) return;
+
+            // Simple validation mock
+            const method = document.querySelector('input[name="payment"]:checked').value;
+            if (method === 'card') {
+                const num = document.getElementById('card-number').value;
+                if (num.length < 12) return alert('Please enter a valid card number');
+            }
+
+            // Show Modal
+            const modal = document.getElementById('payment-modal');
+            const bar = document.getElementById('progress-bar');
+            modal.classList.remove('hidden');
+
+            // Simulate 3s delay
+            setTimeout(() => bar.style.width = '30%', 500);
+            setTimeout(() => bar.style.width = '70%', 1500);
+            setTimeout(async () => {
+                bar.style.width = '100%';
+
+                // Call API
+                try {
+                    const res = await fetch('/api/checkout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({}) // Default: empty body = checkout all cart items
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        localStorage.setItem('delight_cart_count', 0);
+
+                        // Show Success Message
+                        document.querySelector('#payment-modal h3').textContent = 'Payment Received!';
+                        document.querySelector('#payment-modal p').innerHTML = `
+                        <span class="block text-emerald-600 font-bold mb-2">✓ Transaction Successful</span>
+                        Estimated Delivery: <span class="font-bold text-heritage-navy">${new Date(data.delivery_date).toDateString()}</span>
+                    `;
+                        document.getElementById('progress-bar').parentElement.classList.add('hidden');
+
+                        // Add Button to Go to Dashboard
+                        const btn = document.createElement('button');
+                        btn.className = 'mt-6 w-full bg-heritage-navy text-white py-3 rounded-xl font-bold hover:bg-black transition';
+                        btn.textContent = 'Track Order in Dashboard';
+                        btn.onclick = () => window.location.href = 'portal.html?order_success=true';
+                        document.querySelector('#payment-modal > div').appendChild(btn);
+
+                    } else {
+                        throw new Error('Payment failed at backend');
+                    }
+                } catch (e) {
+                    alert('Payment Error: ' + e.message);
+                    modal.classList.add('hidden');
+                }
+
+            }, 3000);
+        };
+
+        // Init
+        loadSummary();
+
+    </script>
+</body>
+
+</html>
